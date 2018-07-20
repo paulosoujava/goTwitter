@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Go Twitter</string>
+    <string name="by_author">By Paulo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_twitter">TwitterActivity</string>
+    <string name="btn_twitter">Twittar</string>
+    <string name="hint_edit_twitter">Qual a novidade...</string>
+    <string name="title_about">Sobre este App</string>
+    <string name="text_about_app">Este APP foi criado como um teste para a empresa NEXFAR uma empresa bacana que vai me contrara após ver este maravilhoso app, que fiz com muito carinho e usando os conhecimentos adquiridos em cursos, livros e amigos imáginario.  Sinta -se a vontade para o uso deste código fonte e em caso de dúvidas entre em contato eplo e-mail: paulosoujava@gmail ou via Whatsapp ( 48 ) 996297813</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="perfil">Perfil</string>
+    <string name="about">Sobre</string>
+    <string name="voltar">voltar</string>
+    <string name="versao">GoTwitter vs.: 1.0</string>
+    <string name="url_site">Web site:</string>
+    <string name="name">Nome:</string>
+    <string name="name_profile">Nick name</string>
+    <string name="website">Meu site</string>
+    <string name="description">Descrição</string>
+
+
+
+    <!--Owner	paulo_costeira -->
+    <!--Owner ID	565577067 -->
+    <string name="SCREEN_NAME">paulo_costeira</string>
+    <string name="CONSUMER_KEY">gw4EsWhlvGJk6D8l2npUMMj1L</string>
+    <string name="CONSUMER_SECRET">ftvEIrD8SuYhYAU29iOWUMksT8Z1xRFNPNkfnzOeE5lIPokMxI</string>
+    <string name="tweets">Tweets</string>
+    <string name="follow">Seguindo</string>
+    <string name="followme">Seguidores</string>
+    <string name="check_internet">OPs, precisamos de internet para twitar, check sua conexão.</string>
+    <string name="ops_error_url">Error loading tweets</string>
+    <string name="ops_error_data_intent">Opss algo saiu errado, por favor tente mais tarde</string>
+    <string name="ok_msg">Obaaa, enviado...</string>
+    <string name="btn_home">Home</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+
+
+</resources>

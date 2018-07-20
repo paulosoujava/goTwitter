@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_marginTop="10sp"
+                android:layout_width="@dimen/w_photo_timeline"
+                android:layout_height="@dimen/h_photo_timeline"
+                android:src="@drawable/no_photo"
+                app:civ_border_color="@color/blue_light"
+                app:civ_border_width="@dimen/weitgh_border_timeline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/author"
+                    android:fontFamily="serif"
+                    tools:text="Paulo\n\t@paulo_deve"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/twitter"
+                    android:paddingRight="2dp"
+                    tools:text="bla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla bla"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/green_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start" />
+
+                <TextView
+                    android:id="@+id/data_create"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right"
+                    tools:text="12/12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

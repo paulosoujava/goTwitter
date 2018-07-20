@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TwitterActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".activity.TwitterActivity"
+            tools:showIn="@layout/activity_twitter">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="55dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="-50dp"
+                android:background="@android:color/transparent"
+                android:onClick="goHome"
+                android:src="@drawable/ic_arrow_back"
+                app:civ_border_color="@color/blue_light"
+                app:civ_border_width="@dimen/weitgh_border_timeline"
+                tools:ignore="VectorDrawableCompat" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/txt_twitter"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="55dp"
+                    android:background="@color/blue_light"
+                    android:gravity="top"
+                    android:hint="@string/hint_edit_twitter"
+                    android:imeOptions="actionNext"
+                    android:inputType="text|textMultiLine"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="@dimen/size_txt_twitter" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/twitter_splash_img" />
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/btn_twitter"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_txt_btn_sent_twitter" />
+
+                <ImageView
+                    android:id="@+id/img_progress"
+                    android:visibility="gone"
+                    android:src="@drawable/logo_nexfar"
+                    android:layout_gravity="center"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/black"
+                    android:layout_width="89dp"
+                    android:layout_height="89dp" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
