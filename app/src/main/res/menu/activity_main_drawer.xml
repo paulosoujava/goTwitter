@@ -32,12 +32,6 @@
         android:checkableBehavior="none">
 
         <item
-            android:id="@+id/navigation_profile_sqlite"
-            android:icon="@drawable/ic_data_perfil"
-            android:title="@string/sqlite_perfil" >
-        </item>
-
-        <item
             android:id="@+id/navigation_timeline_sqlite"
             android:icon="@drawable/ic_list"
             android:title="@string/timelie" >

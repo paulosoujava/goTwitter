@@ -1,22 +1,16 @@
 package br.com.gotwitter.fragment;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -32,10 +26,12 @@ import br.com.gotwitter.util.Connection;
 import br.com.gotwitter.util.Const;
 import br.com.gotwitter.util.Util;
 import twitter4j.Status;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
-import static br.com.gotwitter.util.Util.*;
+import static br.com.gotwitter.util.Const.FIST_ACCESS;
+import static br.com.gotwitter.util.Util.alert;
 
 
 public class HomeProfileFragment extends Fragment {
@@ -61,24 +57,24 @@ public class HomeProfileFragment extends Fragment {
         mRecyclerView = getActivity().findViewById(R.id.recycler);
         progress = getActivity().findViewById(R.id.progress);
 
-        if (Connection.checkConnection(getActivity())) {
+        //primeiro acesso necessario internet
+        if (Prefs.getInteger(getActivity(), FIST_ACCESS) == -1 && Connection.checkConnection(getActivity(), getActivity().findViewById(R.id.drawer_layout))) {
+            progress.setVisibility(View.VISIBLE);
+            myHome();
 
-            if (Prefs.getInteger(getActivity(), Const.SIZE_LIST_TIMELINE_HOME) < 0) {
-                progress.setVisibility(View.VISIBLE);
-                myHome(true);
-            } else {
-                twitterList = TwitterWithProfile.getList(getActivity());
-                initRecycler();
-                myHome(false);
-            }
+            // 2 acesso pega da list prefs e sincroniza em 2 plano se houver conexao
+        } else if (Prefs.getInteger(getActivity(), FIST_ACCESS) > 0) {
+
+            twitterList = TwitterWithProfile.getList(getActivity());
+            initRecycler();
+            if (Connection.checkConnection(getActivity(), getActivity().findViewById(R.id.drawer_layout)))
+                //sincronizar dados
+                myHome();
+
         } else {
-            if (Prefs.getInteger(getActivity(), Const.SIZE_LIST_TIMELINE_HOME) > 0) {
-                twitterList = TwitterWithProfile.getList(getActivity());
-                initRecycler();
-            } else {
-                alert(getActivity(),"Desculpe mas não houve uma sincronização por falta de conexão com a internet");
-            }
+            Util.alert(getActivity(), getString(R.string.first_connection));
         }
+
 
     }
 
@@ -90,7 +86,7 @@ public class HomeProfileFragment extends Fragment {
 
     }
 
-    private void myHome(final boolean is_list_cache) {
+    private void myHome() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -103,18 +99,18 @@ public class HomeProfileFragment extends Fragment {
                 try {
 
                     TwitterFactory tf = new TwitterFactory(MyInstance.getInstance(getActivity()).build());
-                    twitter4j.Twitter twitter = tf.getInstance();
+                    Twitter twitter = tf.getInstance();
                     statuses = twitter.getHomeTimeline();
 
                     try {
 
                         twitter.getOAuthRequestToken();
-                        alert(getActivity(),"Ops , Acesso Negado.");
+                        alert(getActivity(), getString(R.string.access_not));
 
                     } catch (IllegalStateException ie) {
 
                         if (!twitter.getAuthorization().isEnabled()) {
-                            alert(getActivity(),"Ops, OAuth Consumer key/secret inválido.");
+                            alert(getActivity(), getString(R.string.key_invalid));
 
                         } else {
                             for (Status status : statuses) {
@@ -128,16 +124,12 @@ public class HomeProfileFragment extends Fragment {
                                 twitterList.add(t);
                             }
 
-                            if (Prefs.getInteger(getActivity(), Const.SIZE_LIST_TIMELINE_HOME) < 0) {
-                                updatePrefs(twitterList.size(), new Gson().toJson(twitterList));
-                            } else {
-                                if (Prefs.getInteger(getActivity(), Const.SIZE_LIST_TIMELINE_HOME) != twitterList.size())
-                                    updatePrefs(twitterList.size(), new Gson().toJson(twitterList));
-                            }
+                            updatePrefs(twitterList.size(), new Gson().toJson(twitterList));
+
                         }
                     }
                 } catch (TwitterException te) {
-                    alert(getActivity(),"Falha ao obter a timeline: " + te.getMessage());
+                    alert(getActivity(), getString(R.string.our_fail) + te.getMessage());
 
                 }
             }

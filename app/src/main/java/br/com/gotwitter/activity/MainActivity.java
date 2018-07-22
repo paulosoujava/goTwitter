@@ -1,26 +1,19 @@
 package br.com.gotwitter.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -29,43 +22,30 @@ import com.infideap.drawerbehavior.AdvanceDrawerLayout;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import br.com.gotwitter.R;
-import br.com.gotwitter.adapter.TwitterAdaper;
+import br.com.gotwitter.data.Prefs;
 import br.com.gotwitter.data.ProfileDB;
 import br.com.gotwitter.fragment.HomeProfileFragment;
 import br.com.gotwitter.fragment.MyProfileFragment;
 import br.com.gotwitter.model.ProfileTwitter;
-import br.com.gotwitter.model.Twitter;
 import br.com.gotwitter.util.Connection;
-import twitter4j.Status;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
+import br.com.gotwitter.util.Util;
+
+import static br.com.gotwitter.util.Const.FIST_ACCESS;
+import static br.com.gotwitter.util.Const.URL_TIMELINE;
+import static br.com.gotwitter.util.Const.URL_TOKEN;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private RecyclerView mRecyclerView;
-    private TwitterAdaper mAdapter;
     private String mAccessToken;
     private ProfileTwitter mProfileTwitter = new ProfileTwitter();
-    private List<Twitter> twitterList = new ArrayList<>();
-    private FrameLayout progress;
+    private FloatingActionButton fab;
+
     private ProfileDB db;
-    private static final int LIMIT_TWITTER_IN_BD = 10;
-    private static final String URL_TOKEN = "https://api.twitter.com/oauth2/token";
-    private static final String URL_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json";
-    private NetworkInfo networkInfo;
+
+
     private AdvanceDrawerLayout drawer;
 
 
@@ -75,184 +55,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         drawer = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
 
         setSupportActionBar(toolbar);
         replace(new HomeProfileFragment());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initComponetsDrawer(toolbar);
+
         db = new ProfileDB(this);
 
-        if( Connection.checkConnection(this) ){
+        if (Prefs.getInteger(this, FIST_ACCESS) == -1 && Connection.checkConnection(this, drawer)) {
+            init();
+        } else if (Prefs.getInteger(this, FIST_ACCESS) > 0) {
+            init();
+        } else {
+            Util.alert(this, getString(R.string.first_connection));
+        }
+
+    }
+
+    private void init() {
+        if (Connection.checkConnection(this, drawer)) {
             getCredentials();
-        }else{
+        } else {
             mProfileTwitter = db.getProfile();
-         }
 
-        FloatingActionButton fab =  findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotToTwitter();
-            }
-        });
+            //sincronize os dados
+            if (Connection.checkConnection(this))
+                getCredentials();
 
-    }
+        }
 
-
-    private void initRecycler() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new TwitterAdaper(mProfileTwitter);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-    }
-
-    private void myHome() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                List<Status> statuses = null;
-
-
-                try {
-
-                    ConfigurationBuilder cb = new ConfigurationBuilder();
-                    cb.setDebugEnabled(false)
-                            .setOAuthConsumerKey(getResources().getString(R.string.CONSUMER_KEY))
-                            .setOAuthConsumerSecret(getResources().getString(R.string.CONSUMER_SECRET))
-                            .setOAuthAccessToken(getResources().getString(R.string.ACCESS_TOKEN))
-                            .setOAuthAccessTokenSecret(getResources().getString(R.string.CONSUMER_SECRET_TOKEN));
-                    TwitterFactory tf = new TwitterFactory(cb.build());
-                    twitter4j.Twitter twitter = tf.getInstance();
-                    statuses = twitter.getHomeTimeline();
-                    Log.d("LOG", "Showing home timeline.");
-                    try {
-                        // Lança IllegalStateException se o token de acesso estiver disponível
-                        twitter.getOAuthRequestToken();
-                        // Se não ocorrer significa que o acesso a conta não foi permitida
-                        Log.d("LOG", "Acesso Negado.");
-                    } catch (IllegalStateException ie) {
-                        // Verifica se possui autorização
-                        if (!twitter.getAuthorization().isEnabled()) {
-                            Log.d("LOG", "OAuth Consumer key/secret inválido.");
-                        } else {
-                            for (Status status : statuses) {
-                                //profileImageUrlHttps
-                                //screenName
-                                //text
-
-                                Log.d("LOG", "Foto : " + status.getUser().getBiggerProfileImageURL());
-                                Log.d("LOG", "getLocation : " + status.getUser().getLocation());
-                                Log.d("LOG", "getName : " + status.getUser().getName());
-                                Log.d("LOG", "getScreenName : " + status.getUser().getScreenName());
-                                Log.d("LOG", "getText :" + status.getText());
-                            }
-                        }
-                    }
-                } catch (TwitterException te) {
-                    Log.d("LOG", "Falha ao obter a timeline: " + te.getMessage());
+        if (Connection.checkConnection(this)) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, TwitterActivity.class));
                 }
-            }
-        }).start();
+            });
+        }else{
+            fab.setVisibility(View.GONE);
+        }
 
     }
 
-    private void test() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String message = "Teste para Twitter" + new Date();
-                try {
-                    ConfigurationBuilder cb = new ConfigurationBuilder();
-                    cb.setDebugEnabled(false)
-                            .setOAuthConsumerKey(getResources().getString(R.string.CONSUMER_KEY))
-                            .setOAuthConsumerSecret(getResources().getString(R.string.CONSUMER_SECRET))
-                            .setOAuthAccessToken(getResources().getString(R.string.ACCESS_TOKEN))
-                            .setOAuthAccessTokenSecret(getResources().getString(R.string.CONSUMER_SECRET_TOKEN));
-                    TwitterFactory tf = new TwitterFactory(cb.build());
-                    twitter4j.Twitter twitter = tf.getInstance();
-                    try {
-                        // Lança IllegalStateException se o token de acesso estiver disponível
-                        twitter.getOAuthRequestToken();
-                        // Se não ocorrer significa que o acesso a conta não foi permitida
-                        Log.d("LOG", "Acesso Negado.");
-                    } catch (IllegalStateException ie) {
-                        // Verifica se possui autorização
-                        if (!twitter.getAuthorization().isEnabled()) {
-                            Log.d("LOG", "OAuth Consumer key/secret inválido.");
-                        } else {
-                            Status status = twitter.updateStatus(message);
-                            Log.d("LOG", "Tweet publicado! [" + status.getText() + "].");
-                        }
-                    }
-                } catch (TwitterException te) {
-                    Log.d("LOG", "Falha ao obter a timeline: " + te.getMessage());
-                }
-            }
-        }).start();
-
-    }
-    private void publishe(String id) {
-        JsonObject json = new JsonObject();
-        json.addProperty("status", "bar");
-        String screen_name = getResources().getString(R.string.SCREEN_NAME);
-        // String url = "https://api.twitter.com/1.1/statuses/update.json?screen_name="+screen_name+"&oauth_consumer_key="+getResources().getString(R.string.CONSUMER_KEY)+"&oauth_consumer_secret="+ getResources().getString(R.string.CONSUMER_SECRET)+"&oauth_token=565577067-0E2ej0CfKyBlSVl6f5GMMLyEuMZBPG6HGZPpO35P&oauth_token_secret=PiYPEUfaqmCgCuGm7TFc8sm2MFM8Q99AZk0YfW8V8nyv0 )";
-        //String Url = "oauth_token=6253282-eWudHldSbIaelX7swmsiHImEL4KinwaGloHANdrY&oauth_token_secret=2EEfA6BG3ly3sR3RjE0IBSnlQu4ZrUzPiYKmrkVU&user_id=6253282&screen_name=twitterap";
-
-        json.addProperty("method", "POST");
-        json.addProperty("uri", "https://api.twitter.com/1.1/statuses/update.json");
-        json.addProperty("json", "true");
-        /*
-{
- "uri": "https://api.twitter.com/1.1/statuses/update.json",
- "method": "POST",
- "headers": {
-  "Content-Type": "application/x-www-form-urlencoded"
- },
- "json": true,
- "body": "status=Test%20status",
- "oauth": {
-  "token": "token",
-  "token_secret": "token_secret",
-  "consumer_key": "consumer",
-  "consumer_secret": "consumer_secret"
- }
-}
-
- */
-
-        Ion.with(this)
-                .load("https://api.twitter.com/1.1/statuses/update.json")
-                .basicAuthentication("token", "AAAAAAAAAAAAAAAAAAAAAKI47wAAAAAAhbeJbBlBFGgw7I5Qgo3hVscAsnk%3DqG2Havc7dueR9RIN7gSY4apr8Szd3UTJTmvN9m1uGc7BT2qpeL")
-                .basicAuthentication("token_secret", "PiYPEUfaqmCgCuGm7TFc8sm2MFM8Q99AZk0YfW8V8nyv0")
-                .basicAuthentication("consumer_key", "gw4EsWhlvGJk6D8l2npUMMj1L")
-                .basicAuthentication("consumer_secret", "ftvEIrD8SuYhYAU29iOWUMksT8Z1xRFNPNkfnzOeE5lIPokMxI")
-                .setBodyParameter("status", "Oiiiii")
-
-                //.basicAuthentication("access_token", "AAAAAAAAAAAAAAAAAAAAAKI47wAAAAAAhbeJbBlBFGgw7I5Qgo3hVscAsnk%3DqG2Havc7dueR9RIN7gSY4apr8Szd3UTJTmvN9m1uGc7BT2qpeL")
-                //.setBodyParameter("oauth_consumer_key", getResources().getString(R.string.CONSUMER_KEY))
-                //.setBodyParameter("oauth_consumer_secret", getResources().getString(R.string.CONSUMER_SECRET))
-                //.setBodyParameter("request_token", "565577067-0E2ej0CfKyBlSVl6f5GMMLyEuMZBPG6HGZPpO35P")
-                //.setBodyParameter("oauth_token_secret", "PiYPEUfaqmCgCuGm7TFc8sm2MFM8Q99AZk0YfW8V8nyv0")
-                //.setBodyParameter("access_token", "AAAAAAAAAAAAAAAAAAAAAKI47wAAAAAAhbeJbBlBFGgw7I5Qgo3hVscAsnk%3DqG2Havc7dueR9RIN7gSY4apr8Szd3UTJTmvN9m1uGc7BT2qpeL")
-                //.setBodyParameter("list_id", id)
-                //.setBodyParameter("screen_name", screen_name)
-
-                //.setBodyParameter("mode", "public")
-                //.setBodyParameter("description", "Sei la")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if (e != null)
-                            Log.d("LOG", e.getCause() + " " + e.getMessage() + " " + e.getStackTrace());
-
-                        if (result != null)
-                            Log.d("LOG", result.toString());
-                    }
-                });
-    }
 
     private void getCredentials() {
         Ion.with(this)
@@ -311,13 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
     }
 
-    private void gotToTwitter() {
-        if (Connection.checkConnection(this)) {
-            startActivity(new Intent(MainActivity.this, TwitterActivity.class));
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.check_internet, Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
 
     //DRAWER
@@ -347,15 +187,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()) {
             case R.id.navigation_twittar:
-                gotToTwitter();
+                startActivity(new Intent(MainActivity.this, TwitterActivity.class));
 
                 return true;
             case R.id.navigation_home:
-                replace( new HomeProfileFragment());
+                replace(new HomeProfileFragment());
 
                 return true;
             case R.id.navigation_timeline:
-                replace( new MyProfileFragment());
+                replace(new MyProfileFragment());
 
                 return true;
             case R.id.navigation_info:
@@ -367,7 +207,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent itProfile = new Intent(MainActivity.this, ProfileActivity.class);
                 itProfile.putExtra(ProfileTwitter.KEY_PROFILE_TWITTER, mProfileTwitter);
                 startActivity(itProfile);
+                return true;
 
+            case R.id.navigation_timeline_sqlite:
+                MyProfileFragment fr = new MyProfileFragment();
+                fr.setOffline(true);
+                replace(fr);
                 return true;
         }
 
@@ -380,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private void replace(Fragment fr){
+    private void replace(Fragment fr) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container, fr)

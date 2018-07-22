@@ -110,7 +110,7 @@
                             android:gravity="center"
                             android:lineSpacingExtra="8dp"
                             android:padding="@dimen/activity_horizontal_margin"
-                            android:text="@string/tweets"
+                            android:text="@string/followme"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -174,7 +174,7 @@
                             android:gravity="center"
                             android:lineSpacingExtra="8dp"
                             android:padding="@dimen/activity_horizontal_margin"
-                            android:text="@string/followme"
+                            android:text="@string/tweets"
                             android:textColor="@color/white" />
 
                     </LinearLayout>

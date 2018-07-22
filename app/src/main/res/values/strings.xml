@@ -23,7 +23,7 @@
     <string name="tweets">Tweets</string>
     <string name="follow">Seguindo</string>
     <string name="followme">Seguidores</string>
-    <string name="check_internet">OPs, precisamos de internet para twitar, check sua conexão.</string>
+    <string name="check_internet">VocÊ está navegando em modo OFFLINE, sem coexão com a internet.</string>
     <string name="ops_error_url">Error loading tweets</string>
     <string name="ops_error_data_intent">Opss algo saiu errado, por favor tente mais tarde</string>
     <string name="ok_msg">Obaaa, enviado...</string>
@@ -36,17 +36,22 @@
 
     <!--TOKENS-->
 
-    <string name="SCREEN_NAME">paulo_costeira</string>
-    <string name="CONSUMER_KEY">u46S7ZXGhduy8D6hyXTPWLhdd</string>
-    <string name="CONSUMER_SECRET">jDOoSqfunHAkgodALT7TPBLSXcYMh90OklEk1hcMXwebqn1pcJ</string>
-    <string name="ACCESS_TOKEN_CREDENTIAL">AAAAAAAAAAAAAAAAAAAAAKI47wAAAAAAhbeJbBlBFGgw7I5Qgo3hVscAsnk%3DqG2Havc7dueR9RIN7gSY4apr8Szd3UTJTmvN9m1uGc7BT2qpeL</string>
-    <string name="ACCESS_TOKEN">565577067-0E2ej0CfKyBlSVl6f5GMMLyEuMZBPG6HGZPpO35P</string>
-    <string name="CONSUMER_SECRET_TOKEN">PiYPEUfaqmCgCuGm7TFc8sm2MFM8Q99AZk0YfW8V8nyv0</string>
+    <string name="SCREEN_NAME">COLOQUE_SUA_CHAVE</string>
+    <string name="CONSUMER_KEY">COLOQUE_SUA_CHAVE</string>
+    <string name="CONSUMER_SECRET">COLOQUE_SUA_CHAVE</string>
+    <string name="ACCESS_TOKEN_CREDENTIAL">COLOQUE_SUA_CHAVE</string>
+    <string name="ACCESS_TOKEN">COLOQUE_SUA_CHAVE</string>
+    <string name="CONSUMER_SECRET_TOKEN">COLOQUE_SUA_CHAVE</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="my_timeline">Timeline</string>
+    <string name="first_connection">Esta é a sua primeira execução do aplicativo, para isto você deve estar conectado a internet</string>
+    <string name="access_not">Ops , Acesso Negado.</string>
+    <string name="key_invalid">Ops, OAuth Consumer key/secret inválido.</string>
+    <string name="our_fail">Falha ao obter a timeline:</string>
+    <string name="send_ok">Obaaaa, Tweet publicado!</string>
 
 
 </resources>

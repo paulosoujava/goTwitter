@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
@@ -43,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Paulo Oliveira" />
+                        tools:text="Paulo Oliveira" />
 
                     <TextView
                         android:id="@+id/nick"
@@ -51,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:text="paulo_costeira" />
+                        tools:text="paulo_costeira" />
 
                     <View
                         android:layout_width="match_parent"
@@ -66,7 +67,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="texto texto texto texto" />
+                        android:fontFamily="serif"
+                        android:textStyle="bold"
+                        tools:text="texto texto texto texto" />
 
                 </LinearLayout>
 

@@ -52,6 +52,7 @@
                     android:textSize="@dimen/size_txt_twitter" />
 
                 <ImageView
+                    android:id="@+id/img"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="right"

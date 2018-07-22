@@ -1,12 +1,9 @@
 package br.com.gotwitter.fragment;
 
 
-import android.content.Intent;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +18,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.infideap.drawerbehavior.AdvanceDrawerLayout;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -35,8 +31,6 @@ import java.util.List;
 import java.util.Locale;
 
 import br.com.gotwitter.R;
-import br.com.gotwitter.activity.MainActivity;
-import br.com.gotwitter.activity.TwitterActivity;
 import br.com.gotwitter.adapter.TwitterAdaper;
 import br.com.gotwitter.data.Prefs;
 import br.com.gotwitter.data.ProfileDB;
@@ -44,10 +38,13 @@ import br.com.gotwitter.model.ProfileTwitter;
 import br.com.gotwitter.model.Twitter;
 import br.com.gotwitter.model.TwitterWithProfile;
 import br.com.gotwitter.util.Connection;
-import br.com.gotwitter.util.Const;
 import br.com.gotwitter.util.Util;
 
-import static br.com.gotwitter.util.Const.*;
+import static br.com.gotwitter.util.Const.FIST_ACCESS;
+import static br.com.gotwitter.util.Const.LIMIT_TWITTER_IN_BD;
+import static br.com.gotwitter.util.Const.SIZE_LIST_TIMELINE;
+import static br.com.gotwitter.util.Const.URL_TIMELINE;
+import static br.com.gotwitter.util.Const.URL_TOKEN;
 
 
 public class MyProfileFragment extends Fragment {
@@ -57,11 +54,12 @@ public class MyProfileFragment extends Fragment {
     private String mAccessToken;
     private FrameLayout progress;
     private ProfileDB db;
-
+    private boolean offline = false;
     private ProfileTwitter mProfileTwitter = new ProfileTwitter();
     private List<Twitter> twitterList = new ArrayList<>();
 
-    public MyProfileFragment() {}
+    public MyProfileFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,36 +70,41 @@ public class MyProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = getActivity().findViewById(R.id.recycler);
-        progress =  getActivity().findViewById(R.id.progress);
+        progress = getActivity().findViewById(R.id.progress);
 
         db = new ProfileDB(getActivity());
-        progress.setVisibility(View.VISIBLE);
 
+        if (offline) {
+            Log.d("LOG", "mode_offline");
+            mode_offline();
+        } else {
 
-
-        if (Connection.checkConnection(getActivity())) {
-            if (Prefs.getInteger(getActivity(), SIZE_LIST_TIMELINE) < 0) {
+            //primeiro acesso necessario internet
+            if (Prefs.getInteger(getActivity(), FIST_ACCESS) == -1 && Connection.checkConnection(getActivity(), getActivity().findViewById(R.id.drawer_layout))) {
                 progress.setVisibility(View.VISIBLE);
-                //get web
                 getCredentials();
                 initRecycler();
-            } else {
-                    //from SQLite
-                    mProfileTwitter = db.getProfile();
-                    initRecycler();
-                   getCredentials();
-            }
-        } else {
-            if (Prefs.getInteger(getActivity(), SIZE_LIST_TIMELINE) < 0) {
-                Util.alert(getActivity(),"Desculpe mas não houve uma sincronização por falta de conexão com a internet");
-            }else{
+
+                // 2 acesso pega da list prefs e sincroniza em 2 plano se houver conexao
+            } else if (Prefs.getInteger(getActivity(), FIST_ACCESS) > 0) {
+
                 //from SQLite
-                mProfileTwitter = db.getProfile();
-                initRecycler();
+                mode_offline();
+                //para sincronizar, background
+                if (Connection.checkConnection(getActivity(), getActivity().findViewById(R.id.drawer_layout)))
+                    getCredentials();
+
+            } else {
+                Util.alert(getActivity(), getString(R.string.first_connection));
             }
-        }
+         }
 
+    }
 
+    private  void mode_offline(){
+        mProfileTwitter = db.getProfile();
+        Log.d("LOG", "mode_offline: "+ mProfileTwitter.getmList().size());
+        initRecycler();
     }
 
     private void initRecycler() {
@@ -114,7 +117,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void getCredentials() {
-   Ion.with(this)
+        Ion.with(this)
                 .load(URL_TOKEN)
                 .basicAuthentication(getResources().getString(R.string.CONSUMER_KEY),
                         getResources().getString(R.string.CONSUMER_SECRET))
@@ -135,7 +138,7 @@ public class MyProfileFragment extends Fragment {
 
     private void getDataProfile() {
         String screen_name = getResources().getString(R.string.SCREEN_NAME);
-        String url = URL_TIMELINE+"?screen_name=" + screen_name + "&count=20";
+        String url = URL_TIMELINE + "?screen_name=" + screen_name + "&count=20";
         Ion.with(this)
                 .load(url)
                 .setHeader("Authorization", "Bearer " + mAccessToken)
@@ -144,7 +147,7 @@ public class MyProfileFragment extends Fragment {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
                         if (e != null) {
-                            Toast.makeText(getActivity(),  R.string.ops_error_url, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), R.string.ops_error_url, Toast.LENGTH_LONG).show();
                             return;
                         }
 
@@ -175,7 +178,7 @@ public class MyProfileFragment extends Fragment {
                             twitterList.add(t);
 
                             //save in database SQLLite
-                            if( i <  LIMIT_TWITTER_IN_BD)
+                            if (i < LIMIT_TWITTER_IN_BD)
                                 db.saveTwitter(twitterList);
 
                         }
@@ -206,10 +209,10 @@ public class MyProfileFragment extends Fragment {
             cal.setTime(date);
             formatedDate = cal.get(Calendar.DATE) + "/" +
                     (cal.get(Calendar.MONTH) + 1) +
-                    "/" + cal.get(Calendar.YEAR)+" " +
-                    cal.get(Calendar.HOUR_OF_DAY) +": "+
-                    cal.get(Calendar.MINUTE) +": "+
-                    cal.get(Calendar.SECOND) ;
+                    "/" + cal.get(Calendar.YEAR) + " " +
+                    cal.get(Calendar.HOUR_OF_DAY) + ": " +
+                    cal.get(Calendar.MINUTE) + ": " +
+                    cal.get(Calendar.SECOND);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -224,5 +227,7 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-
+    public void setOffline(boolean offline) {
+        this.offline = offline;
+    }
 }

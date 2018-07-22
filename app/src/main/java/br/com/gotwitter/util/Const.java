@@ -9,6 +9,5 @@ public class Const {
     public static  final int  LIMIT_TWITTER_IN_BD = 10;
     public static  final String  URL_TOKEN = "https://api.twitter.com/oauth2/token";
     public static  final String  URL_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json";
-
-
+    public static final String FIST_ACCESS = "first_acces";
 }

@@ -145,7 +145,6 @@ public class ProfileDB extends SQLiteOpenHelper {
 
     public void saveTwitter(List<Twitter> list) {
         SQLiteDatabase db = getWritableDatabase();
-
         //delete os existentes
         deleteALlTwitter();
 
@@ -156,7 +155,6 @@ public class ProfileDB extends SQLiteOpenHelper {
                 values = new ContentValues();
                 values.put(TEXT, t.getTwitter_txt());
                 values.put(DATA, t.getData_create());
-
                 db.insert(TWITTER_COLUMN, "", values);
             }
         } finally {
@@ -164,10 +162,11 @@ public class ProfileDB extends SQLiteOpenHelper {
         }
     }
 
-    private void deleteALlTwitter() {
+    private boolean deleteALlTwitter() {
         SQLiteDatabase db = getWritableDatabase();
-        Cursor c = db.query(TWITTER_COLUMN, null, null, null,
-        null, null, null);
+        return db.delete(TWITTER_COLUMN, _ID + "> 0" , null) > 0;
+
+
     }
 
     //GET ALL TWITTEL IN SQLite

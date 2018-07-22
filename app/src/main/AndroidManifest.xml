@@ -26,12 +26,12 @@
         <activity
             android:name=".activity.TwitterActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateVisible"
             android:label="@string/title_activity_twitter"
-            android:theme="@style/MyThemeSplash" />
+            android:theme="@style/MyThemeSplash"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.ProfileActivity"></activity>
-
+        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.OffLineTwitterActivity"></activity>
     </application>
 
 </manifest>
