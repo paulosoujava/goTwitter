@@ -16,12 +16,12 @@ Optei pelo uso da reciclerView por otimizar a lista reciclandos e tornando o des
  # OBS
  colocar a suas chaves e token nas res/values.string
  ---
-   - <string name="SCREEN_NAME">COLOQUE_SUA_CHAVE</string>
-   - <string name="CONSUMER_KEY">COLOQUE_SUA_CHAVE</string>
-   - <string name="CONSUMER_SECRET">COLOQUE_SUA_CHAVE</string>
-   - <string name="ACCESS_TOKEN_CREDENTIAL">COLOQUE_SUA_CHAVE</string>
-   - <string name="ACCESS_TOKEN">COLOQUE_SUA_CHAVE</string>
-   - <string name="CONSUMER_SECRET_TOKEN">COLOQUE_SUA_CHAVE</string>
+   - string name="SCREEN_NAME"> COLOQUE_SUA_CHAVE
+   - string name="CONSUMER_KEY"> COLOQUE_SUA_CHAVE
+   - string name="CONSUMER_SECRET"> COLOQUE_SUA_CHAVE
+   - string name="ACCESS_TOKEN_CREDENTIAL"> COLOQUE_SUA_CHAVE
+   - string name="ACCESS_TOKEN"> COLOQUE_SUA_CHAVE
+   - string name="CONSUMER_SECRET_TOKEN"> COLOQUE_SUA_CHAVE
 
 #  minSdkVersion 14
 
