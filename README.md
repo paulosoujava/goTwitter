@@ -26,6 +26,7 @@ Você pode ver um video do app ao clicar abaixo:
      [![](https://i9.ytimg.com/vi/KL6Kxq8wBb8/default.jpg?sqp=CKTe09oF&rs=AOn4CLD8abphomeRYVnwR0488sZn6U05dw)](https://www.youtube.com/watch?v=KL6Kxq8wBb8)
   
  Em caso de dúvidas entre em contato: 
+ ---
     * paulosoujava@gmail.com
     * (48) 996297813
 
