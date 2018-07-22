@@ -32,7 +32,7 @@ Você pode ver um video do app ao clicar abaixo:
 
 Printscreem
 ---
-![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170832.png =150x150)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170832.png)
 ![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170840.png)
 ![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170845.png)
 ![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170849.png)
