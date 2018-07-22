@@ -20,14 +20,6 @@
     <string name="name_profile">Nick name</string>
     <string name="website">Meu site</string>
     <string name="description">Descrição</string>
-
-
-
-    <!--Owner	paulo_costeira -->
-    <!--Owner ID	565577067 -->
-    <string name="SCREEN_NAME">paulo_costeira</string>
-    <string name="CONSUMER_KEY">gw4EsWhlvGJk6D8l2npUMMj1L</string>
-    <string name="CONSUMER_SECRET">ftvEIrD8SuYhYAU29iOWUMksT8Z1xRFNPNkfnzOeE5lIPokMxI</string>
     <string name="tweets">Tweets</string>
     <string name="follow">Seguindo</string>
     <string name="followme">Seguidores</string>
@@ -38,6 +30,23 @@
     <string name="btn_home">Home</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string name="sqlite_perfil">SQLite Perfil</string>
+    <string name="timelie">SQLite Timeline</string>
+
+
+    <!--TOKENS-->
+
+    <string name="SCREEN_NAME">paulo_costeira</string>
+    <string name="CONSUMER_KEY">u46S7ZXGhduy8D6hyXTPWLhdd</string>
+    <string name="CONSUMER_SECRET">jDOoSqfunHAkgodALT7TPBLSXcYMh90OklEk1hcMXwebqn1pcJ</string>
+    <string name="ACCESS_TOKEN_CREDENTIAL">AAAAAAAAAAAAAAAAAAAAAKI47wAAAAAAhbeJbBlBFGgw7I5Qgo3hVscAsnk%3DqG2Havc7dueR9RIN7gSY4apr8Szd3UTJTmvN9m1uGc7BT2qpeL</string>
+    <string name="ACCESS_TOKEN">565577067-0E2ej0CfKyBlSVl6f5GMMLyEuMZBPG6HGZPpO35P</string>
+    <string name="CONSUMER_SECRET_TOKEN">PiYPEUfaqmCgCuGm7TFc8sm2MFM8Q99AZk0YfW8V8nyv0</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="my_timeline">Timeline</string>
 
 
 </resources>

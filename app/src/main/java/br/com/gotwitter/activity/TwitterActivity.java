@@ -1,11 +1,9 @@
 package br.com.gotwitter.activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,28 +15,24 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
+import java.util.Date;
 
 import br.com.gotwitter.R;
+import br.com.gotwitter.service.MyInstance;
+import br.com.gotwitter.util.Util;
+import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterActivity extends AppCompatActivity {
 
     private TextView txt_twitter;
     private Button publish;
-    private static  final  String URL= "https://api.twitter.com/1.1/statuses/update.json";
-    //private static  final String  URL_TOKEN = "https://api.twitter.com/oauth2/token";
-    private static  final String  URL_TOKEN = "https://api.twitter.com/oauth/access_token";
-    private String mToken;
     private ProgressBar progressBar;
     private ImageView imageView;
+    MediaPlayer objPlayer;
 
 
     @Override
@@ -49,6 +43,7 @@ public class TwitterActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress);
         imageView = findViewById(R.id.img_progress);
         publish = findViewById(R.id.btn);
+        objPlayer = MediaPlayer.create(this,R.raw.twitter);
 
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,15 +51,10 @@ public class TwitterActivity extends AppCompatActivity {
 
                 String txt =  txt_twitter.getText().toString();
                 if( !txt.isEmpty()){
-
                     Intent it = getIntent();
                     if( it != null ){
-                        initTwitter();
                         showProgress(true);
-                        //getCredentials(txt);
-                        composerTwitter(txt);
-
-
+                        publish(txt);
                     }else{
                         Toast.makeText(TwitterActivity.this, R.string.ops_error_data_intent, Toast.LENGTH_SHORT).show();
                         finish();
@@ -84,75 +74,48 @@ public class TwitterActivity extends AppCompatActivity {
         imageView.setVisibility(is_show? View.VISIBLE: View.GONE);
     }
 
-    private void getCredentials(final String  txt) {
-        Ion.with(this)
-                .load(URL_TOKEN)
-                .basicAuthentication(getResources().getString(R.string.CONSUMER_KEY),
-                        getResources().getString(R.string.CONSUMER_SECRET))
-                .setBodyParameter("grant_type", "client_credentials")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if (e != null) {
-                            Log.d("LOG", e.getCause()+""+ e.getMessage() );
-                            Toast.makeText(TwitterActivity.this, R.string.ops_error_url, Toast.LENGTH_LONG).show();
-                            showProgress(false);
-                            return;
-                        }
 
-                        Log.d("LOG", result.toString());
-                        mToken = result.get("access_token").getAsString();
-                        postOnTwitter(txt);
+    private void publish(final String message ) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+                try {
 
+                    TwitterFactory tf = new TwitterFactory(MyInstance.getInstance(getApplicationContext()).build());
+                    twitter4j.Twitter twitter = tf.getInstance();
+                    try {
+                        twitter.getOAuthRequestToken();
+                        updateMyUI( false, "Acesso Negado.");
+                    } catch (IllegalStateException ie) {
+
+                        if (!twitter.getAuthorization().isEnabled()) {
+                            updateMyUI( false, "OAuth Consumer key/secret inválido");
+                        } else {
+                            twitter.updateStatus(message);
+                            updateMyUI( true, "weet publicado!");
+                         }
                     }
-                });
+                } catch (TwitterException te) {
+                    updateMyUI( false, "Falha ao obter a timeline:");
+
+                }
+            }
+        }).start();
+
     }
-    private void postOnTwitter(String str){
-        JsonObject json = new JsonObject();
-        json.addProperty("status", str);
+    private void updateMyUI(final boolean is_ok, final String msg ) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if( is_ok){
+                    txt_twitter.setText("");
+                    showProgress(false);
+                    objPlayer.start();
+                }
+                    Util.alert(TwitterActivity.this,  msg);
+            }
 
-        Ion.with(this)
-                .load(URL)
-                .setHeader("Authorization", "Bearer " + mToken)
-                .setJsonObjectBody(json)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if( e != null ){
-                            Log.d("LOG", e.getCause()+""+ e.getMessage() );
-                            showProgress(false);
-                            return;
-                        }else{
-                            Log.d("LOG", result.toString() );
-                            showProgress(false);
-                            Toast.makeText(TwitterActivity.this, R.string.ok_msg, Toast.LENGTH_SHORT).show();
-                            txt_twitter.setText("");
-                        }
-
-                    }
-                });
-    }
-
-
-    private void composerTwitter(String str ){
-
-        TweetComposer.Builder builder = new TweetComposer.Builder(this)
-
-                .text(str);
-        builder.show();
-        showProgress(false);
-    }
-    private void initTwitter(){
-
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.CONSUMER_KEY), getResources().getString(R.string.CONSUMER_SECRET)))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
-
+        });
     }
 }

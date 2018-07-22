@@ -5,30 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_marginTop="56dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_adapter"/>
-
     <FrameLayout
-        android:id="@+id/progress"
-        android:visibility="gone"
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recycler"-->
+        <!--android:layout_marginTop="56dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--tools:listitem="@layout/item_adapter"/>-->
 
-        <ImageView
-            android:src="@drawable/logo_nexfar"
-            android:layout_gravity="center"
-            android:layout_width="56dp"
-            android:layout_height="56dp" />
-        <ProgressBar
-            android:layout_gravity="center"
-            android:backgroundTint="@color/black"
-            android:layout_width="89dp"
-            android:layout_height="89dp" />
+    <!--<FrameLayout-->
+        <!--android:id="@+id/progress"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-    </FrameLayout>
+        <!--<ImageView-->
+            <!--android:src="@drawable/logo_nexfar"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_width="56dp"-->
+            <!--android:layout_height="56dp" />-->
+        <!--<ProgressBar-->
+            <!--android:layout_gravity="center"-->
+            <!--android:backgroundTint="@color/black"-->
+            <!--android:layout_width="89dp"-->
+            <!--android:layout_height="89dp" />-->
+
+    <!--</FrameLayout>-->
 
 </android.support.constraint.ConstraintLayout>

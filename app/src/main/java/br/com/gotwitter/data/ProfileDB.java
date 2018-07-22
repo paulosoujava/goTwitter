@@ -143,34 +143,34 @@ public class ProfileDB extends SQLiteOpenHelper {
         return c.getCount();
     }
 
-    public void saveTwitter(Twitter t) {
+    public void saveTwitter(List<Twitter> list) {
         SQLiteDatabase db = getWritableDatabase();
+
+        //delete os existentes
+        deleteALlTwitter();
+
         try {
-            ContentValues values = new ContentValues();
-            values.put(TEXT, t.getTwitter_txt());
-            values.put(DATA, t.getData_create());
+            //insert all the list
+            ContentValues values;
+            for( Twitter t : list ) {
+                values = new ContentValues();
+                values.put(TEXT, t.getTwitter_txt());
+                values.put(DATA, t.getData_create());
 
-            //update or insert
-            if (hasTwitter(t.getData_create(), db) > 0) {
-                String[] whereArgs = new String[]{t.getId()};
-                db.update(TWITTER_COLUMN, values, _ID + "=?", whereArgs);
-
-            } else {
                 db.insert(TWITTER_COLUMN, "", values);
             }
-
         } finally {
             db.close();
         }
     }
 
-    //qtd this specific date
-    private int hasTwitter(String data, SQLiteDatabase db) {
-        Cursor c = db.query(TWITTER_COLUMN, null, DATA + "= '" + data + "'", null, null, null, null);
-        return c.getCount();
+    private void deleteALlTwitter() {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.query(TWITTER_COLUMN, null, null, null,
+        null, null, null);
     }
 
-
+    //GET ALL TWITTEL IN SQLite
     public List<Twitter> getAllList() {
         SQLiteDatabase db = getWritableDatabase();
         Cursor c = db.query(TWITTER_COLUMN, null, null, null,
@@ -193,28 +193,5 @@ public class ProfileDB extends SQLiteOpenHelper {
         return list;
     }
 
-    //    //qtd total
-//    private int qtdTwitter(SQLiteDatabase db) {
-//        Cursor c = db.query("twitter", null, null, null, null, null, null);
-//        return c.getCount();
-//    }
-//
-//    public void deleteTheLastDateTwitter(SQLiteDatabase db) {
-//        Cursor c = db.query(TWITTER_COLUMN, null, null, null,
-//                null, null, null);
-//        orderAndRemoveTheLastIndice(toList(c, db), db);
-//    }
 
-//    private void orderAndRemoveTheLastIndice(List<Twitter> list, SQLiteDatabase db) {
-//        //ordenando par sempre remover o ultimo desta lista
-//        Collections.sort(list, new Comparator() {
-//            public int compare(Object o1, Object o2) {
-//                Twitter t1 = (Twitter) o1;
-//                Twitter t2 = (Twitter) o2;
-//                return t1.getData_create().compareToIgnoreCase(t2.getData_create());
-//            }
-//        });
-//        //remove the old date
-//        db.delete(TWITTER_COLUMN, _ID + "=?", new String[]{list.get(list.size() - 1).getId()});
-//    }
 }
