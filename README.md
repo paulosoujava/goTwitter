@@ -10,7 +10,6 @@ Para este projeto eu usei:
   - [Drawer-Behavior](https://android-arsenal.com/details/1/6239)
   - [CircleImageView](https://github.com/hdodenhof/CircleImageView)
   
-  
 Usei  o picasso por ser uma lib simples e tratar as imagens cacheados usei o Ion para poder consultar os meus ultimos 20 twitters na, relidade poderia e deveria ter usado ela para , postar, obter dados da home, da timeline, porém sempre obtive um bad request após muitas pesquisas, acabei usando a twitter4j no qual facilita muito o post e obter os dados da home, timeline, optei por usar as duas, a Ion já faz o trabalho fora da UIThread porém a Twitter4j eu usei uma Thread separada, não optei pelo pela AsyncTask por simples economia de código   o  CircleImageView para dar um aredondamento na imagem, e o Drawer-Behavior para dar um acabamento legal no menu.
 Optei pelo uso da reciclerView por otimizar a lista reciclandos e tornando o desempenho muito melhor que a listview, o cardview para dar uma estilizada e ficar agradavel mais visualmente 
  
@@ -22,7 +21,8 @@ Optei pelo uso da reciclerView por otimizar a lista reciclandos e tornando o des
 
 Você pode ver um video do app ao clicar abaixo:
   - [YOUTUBE](https://www.youtube.com/watch?v=KL6Kxq8wBb8)
-   
+
+
      [![](https://i9.ytimg.com/vi/KL6Kxq8wBb8/default.jpg?sqp=CKTe09oF&rs=AOn4CLD8abphomeRYVnwR0488sZn6U05dw)](https://www.youtube.com/watch?v=KL6Kxq8wBb8)
   
  Em caso de dúvidas entre em contato: 
@@ -30,6 +30,15 @@ Você pode ver um video do app ao clicar abaixo:
     * paulosoujava@gmail.com
     * (48) 996297813
 
+Printscreem
+---
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170832.png)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170840.png)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170845.png)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170849.png)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170855.png)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170909.png)
+![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170913.png)
 
 
 License
@@ -39,5 +48,6 @@ MIT
 
 
 **Free Software, Hell Yeah!**
+
 
 
