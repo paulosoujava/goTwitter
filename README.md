@@ -30,7 +30,7 @@ Você pode ver um video do app ao clicar abaixo:
     * paulosoujava@gmail.com
     * (48) 996297813
 
-Printscreem
+
 ---
 ![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170832.png)
 ![](https://raw.githubusercontent.com/paulosoujava/ConnectionDefault/master/Screenshot_20180722-170840.png)
