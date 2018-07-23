@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import br.com.gotwitter.model.ProfileTwitter;
@@ -49,8 +47,6 @@ public class ProfileDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("LOG", "CREANT DATA BASE");
-
         //data profile
         db.execSQL("CREATE TABLE IF NOT EXISTS " + PROFILE_COLUMN + "(" +
                 _ID + " integer primary key autoincrement," +

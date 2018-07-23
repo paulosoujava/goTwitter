@@ -1,5 +1,6 @@
 package br.com.gotwitter.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -48,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void initComponentsId() {
         name = findViewById(R.id.name);
         location = findViewById(R.id.location);

@@ -1,6 +1,7 @@
 package br.com.gotwitter.activity;
 
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -111,8 +112,15 @@ public class TwitterActivity extends AppCompatActivity {
                     txt_twitter.setText("");
                     showProgress(false);
                     objPlayer.start();
-                    animation(ObjectAnimator.ofFloat(img, "translationX", -100f));
-                    animation(ObjectAnimator.ofFloat(img, "translationX", 100f));
+                    ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(
+                            img,
+                            PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                            PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+                    scaleDown.setDuration(310);
+
+                    scaleDown.setRepeatCount(3);
+                    scaleDown.setRepeatMode(ObjectAnimator.REVERSE);
+                    scaleDown.start();
                 }
                 Util.alert(TwitterActivity.this, msg);
             }
@@ -120,9 +128,4 @@ public class TwitterActivity extends AppCompatActivity {
         });
     }
 
-    private void animation(ObjectAnimator animation) {
-        animation = ObjectAnimator.ofFloat(img, "translationX", 100f);
-        animation.setDuration(1000);
-        animation.start();
-    }
 }

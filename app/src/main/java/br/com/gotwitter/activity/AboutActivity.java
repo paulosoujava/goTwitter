@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 
 import br.com.gotwitter.R;
 import de.hdodenhof.circleimageview.CircleImageView;

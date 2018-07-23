@@ -1,19 +1,14 @@
 package br.com.gotwitter.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.gotwitter.R;
 import br.com.gotwitter.holder.TwitterHolder;
 import br.com.gotwitter.model.ProfileTwitter;
-import br.com.gotwitter.model.Twitter;
 
 public class TwitterAdaper extends RecyclerView.Adapter<TwitterHolder> {
 

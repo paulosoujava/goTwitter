@@ -36,15 +36,14 @@
 
     <!--TOKENS-->
 
-    <string name="SCREEN_NAME">COLOQUE_SUA_CHAVE</string>
-    <string name="CONSUMER_KEY">COLOQUE_SUA_CHAVE</string>
-    <string name="CONSUMER_SECRET">COLOQUE_SUA_CHAVE</string>
-    <string name="ACCESS_TOKEN_CREDENTIAL">COLOQUE_SUA_CHAVE</string>
-    <string name="ACCESS_TOKEN">COLOQUE_SUA_CHAVE</string>
-    <string name="CONSUMER_SECRET_TOKEN">COLOQUE_SUA_CHAVE</string>
+    <string name="SCREEN_NAME"> ***  **** </string>
+    <string name="CONSUMER_KEY"> ***  **** </string>
+    <string name="CONSUMER_SECRET"> ***  **** </string>
+    <string name="ACCESS_TOKEN_CREDENTIAL"> ***  **** </string>
+    <string name="ACCESS_TOKEN"> ***  **** - ***  **** </string>
+    <string name="CONSUMER_SECRET_TOKEN"> ***  **** </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="home">Home</string>
     <string name="my_timeline">Timeline</string>
     <string name="first_connection">Esta é a sua primeira execução do aplicativo, para isto você deve estar conectado a internet</string>
@@ -52,6 +51,7 @@
     <string name="key_invalid">Ops, OAuth Consumer key/secret inválido.</string>
     <string name="our_fail">Falha ao obter a timeline:</string>
     <string name="send_ok">Obaaaa, Tweet publicado!</string>
+    <string name="descricao">imagem_logo</string>
 
 
 </resources>

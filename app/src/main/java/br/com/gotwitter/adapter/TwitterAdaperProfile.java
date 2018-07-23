@@ -1,7 +1,6 @@
 package br.com.gotwitter.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +11,6 @@ import java.util.List;
 
 import br.com.gotwitter.R;
 import br.com.gotwitter.holder.TwitterHolder;
-import br.com.gotwitter.model.ProfileTwitter;
 import br.com.gotwitter.model.TwitterWithProfile;
 import de.hdodenhof.circleimageview.CircleImageView;
 

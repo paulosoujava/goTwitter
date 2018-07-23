@@ -31,7 +31,6 @@
             android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.ProfileActivity" />
-        <activity android:name=".activity.OffLineTwitterActivity"></activity>
     </application>
 
 </manifest>

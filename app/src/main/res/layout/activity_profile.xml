@@ -33,6 +33,7 @@
 
                 <ImageView
                     android:id="@+id/profile_banner_url"
+                    android:contentDescription="@string/descricao"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
@@ -192,7 +193,8 @@
                 android:layout_marginRight="5dp"
                 android:background="@color/blue_light"
                 android:elevation="8dp"
-                app:cardCornerRadius="4dp">
+                app:cardCornerRadius="4dp"
+                tools:targetApi="lollipop">
 
                 <!--  DATA PROFILE -->
                 <LinearLayout
@@ -219,7 +221,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nickname"
+                        tools:text="Nickname"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
@@ -248,7 +250,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cidade Pais"
+                        tools:text="Cidade Pais"
                         android:textColor="@color/white"
                         android:textSize="25sp" />
 
@@ -273,7 +275,8 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
                 android:elevation="8dp"
-                app:cardCornerRadius="4dp">
+                app:cardCornerRadius="4dp"
+                tools:targetApi="lollipop">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -310,7 +313,8 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
                 android:elevation="8dp"
-                app:cardCornerRadius="4dp">
+                app:cardCornerRadius="4dp"
+                tools:targetApi="lollipop">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -345,6 +349,7 @@
 
 
                 <ImageView
+                    android:contentDescription="@string/descricao"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="20dp"
@@ -359,7 +364,8 @@
                     android:gravity="center"
                     android:text="@string/versao"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    tools:targetApi="jelly_bean" />
 
 
             </FrameLayout>

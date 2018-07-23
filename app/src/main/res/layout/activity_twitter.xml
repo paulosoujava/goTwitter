@@ -53,6 +53,7 @@
 
                 <ImageView
                     android:id="@+id/img"
+                    android:contentDescription="@string/descricao"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="right"
@@ -82,6 +83,7 @@
 
                 <ImageView
                     android:id="@+id/img_progress"
+                    android:contentDescription="@string/descricao"
                     android:visibility="gone"
                     android:src="@drawable/logo_nexfar"
                     android:layout_gravity="center"
@@ -94,7 +96,8 @@
                     android:layout_gravity="center"
                     android:backgroundTint="@color/black"
                     android:layout_width="89dp"
-                    android:layout_height="89dp" />
+                    android:layout_height="89dp"
+                    tools:targetApi="lollipop" />
 
             </FrameLayout>
 

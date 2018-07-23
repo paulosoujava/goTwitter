@@ -40,7 +40,8 @@
                     tools:text="Paulo\n\t@paulo_deve"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    tools:targetApi="jelly_bean" />
 
                 <TextView
                     android:id="@+id/twitter"
@@ -50,7 +51,8 @@
                     android:textColor="@color/green_dark"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="start" />
+                    android:gravity="start"
+                    android:paddingEnd="2dp" />
 
                 <TextView
                     android:id="@+id/data_create"

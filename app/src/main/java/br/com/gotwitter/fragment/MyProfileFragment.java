@@ -36,7 +36,6 @@ import br.com.gotwitter.data.Prefs;
 import br.com.gotwitter.data.ProfileDB;
 import br.com.gotwitter.model.ProfileTwitter;
 import br.com.gotwitter.model.Twitter;
-import br.com.gotwitter.model.TwitterWithProfile;
 import br.com.gotwitter.util.Connection;
 import br.com.gotwitter.util.Util;
 
@@ -103,8 +102,7 @@ public class MyProfileFragment extends Fragment {
 
     private  void mode_offline(){
         mProfileTwitter = db.getProfile();
-        Log.d("LOG", "mode_offline: "+ mProfileTwitter.getmList().size());
-        initRecycler();
+            initRecycler();
     }
 
     private void initRecycler() {

@@ -18,6 +18,7 @@
 
             <ImageView
                 android:id="@+id/backdrop"
+                android:contentDescription="@string/descricao"
                 android:src="@drawable/noimage"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
@@ -31,7 +32,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-100dp">
+                android:layout_marginTop="-100dp"
+                tools:targetApi="lollipop">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +71,8 @@
                         android:padding="10dp"
                         android:fontFamily="serif"
                         android:textStyle="bold"
-                        tools:text="texto texto texto texto" />
+                        tools:text="texto texto texto texto"
+                        tools:targetApi="jelly_bean" />
 
                 </LinearLayout>
 

@@ -3,13 +3,6 @@ package br.com.gotwitter.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
-import br.com.gotwitter.model.ProfileTwitter;
-import br.com.gotwitter.model.TwitterWithProfile;
-
 public class Prefs {
 
     public static final String PREF_ID = "gotwitter";
